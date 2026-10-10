@@ -36,10 +36,6 @@ import kotlinx.coroutines.launch
 
 // ---------- Draggable scroll bar ----------
 
-// Shared drawing and dragging logic.
-// contentHeight(viewport) = estimated total height of the scrollable content
-// scrollOffset()          = how far the content is currently scrolled
-// onScrollBy(delta)       = scrolls the content by delta pixels
 @Composable
 private fun ScrollbarCore(
     color: Color,
@@ -53,7 +49,7 @@ private fun ScrollbarCore(
 
     Box(
         modifier = modifier
-            .width(24.dp) // wide touch/click area; the visible bar is thinner
+            .width(24.dp)
             .onSizeChanged { viewport = it.height.toFloat() }
             .drawBehind {
                 val content = contentHeight(viewport)
@@ -66,14 +62,12 @@ private fun ScrollbarCore(
                         .coerceIn(0f, maxTop)
                     val x = size.width - barW - 2.dp.toPx()
 
-                    // faint track
                     drawRoundRect(
                         color = color.copy(alpha = 0.15f),
                         topLeft = Offset(x, 0f),
                         size = Size(barW, viewport),
                         cornerRadius = CornerRadius(barW / 2)
                     )
-                    // thumb
                     drawRoundRect(
                         color = color,
                         topLeft = Offset(x, top),
@@ -91,7 +85,6 @@ private fun ScrollbarCore(
                             .coerceIn(40.dp.toPx(), viewport)
                         val maxTop = viewport - thumbH
                         if (maxTop > 0f) {
-                            // dragging the thumb 1px moves the content by "ratio" px
                             val ratio = (content - viewport) / maxTop
                             scope.launch { onScrollBy(dragAmount * ratio) }
                         }
@@ -101,7 +94,6 @@ private fun ScrollbarCore(
     )
 }
 
-// Scroll bar for a LazyColumn (Daily screen)
 @Composable
 fun LazyListScrollbar(
     state: LazyListState,
@@ -127,7 +119,6 @@ fun LazyListScrollbar(
     )
 }
 
-// Scroll bar for a Column with verticalScroll (Now screen)
 @Composable
 fun ColumnScrollbar(
     state: ScrollState,
@@ -155,7 +146,7 @@ fun NowScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(top = 64.dp),
+                .padding(top = 64.dp),   // space ABOVE the icon: change this number
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
@@ -164,10 +155,13 @@ fun NowScreen() {
                 modifier = Modifier.size(96.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(24.dp))   // NEW: space BELOW the icon (was 16)
             Text(w.condition, fontSize = 22.sp)
+            Spacer(Modifier.height(4.dp))    // NEW
             Text("${w.tempC}°C", fontSize = 48.sp)
+            Spacer(Modifier.height(4.dp))    // NEW
             Text("Feels like ${w.feelsLikeC}°C", fontSize = 16.sp)
+            Spacer(Modifier.height(4.dp))    // NEW
             Text("Wind ${w.windDir} ${w.windKph} kph", fontSize = 16.sp)
         }
 
@@ -211,13 +205,16 @@ fun DailyRow(day: DailyWeather) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(day.date, style = MaterialTheme.typography.titleSmall)
+        Spacer(Modifier.height(8.dp))        // NEW: gap between date and icon
         Icon(
             imageVector = day.icon,
             contentDescription = null,
             modifier = Modifier.size(48.dp),
             tint = MaterialTheme.colorScheme.primary
         )
+        Spacer(Modifier.height(8.dp))        // NEW: gap between icon and temperatures
         Text("${day.highC}°C High  ${day.lowC}°C Low")
+        Spacer(Modifier.height(4.dp))        // NEW: gap before the description
         Text(
             text = day.description,
             fontSize = 12.sp,
