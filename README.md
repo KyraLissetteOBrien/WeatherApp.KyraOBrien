@@ -2,5 +2,6 @@ This is an up and coming weather application written in Kotlin for Android Studi
 
 Icons Resource: https://github.com/Makin-Things/weather-icons
 
-Sneak peak so far: <img width="290" height="650" alt="image" src="https://github.com/user-attachments/assets/5fecc650-ba4f-4c70-9b8a-bfb8d8a0f754" />
+Sneak peak so far: 
+<img width="290" height="650" alt="image" src="https://github.com/user-attachments/assets/5fecc650-ba4f-4c70-9b8a-bfb8d8a0f754" />
 
