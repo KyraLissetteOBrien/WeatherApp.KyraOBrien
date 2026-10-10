@@ -1,5 +1,6 @@
 package com.example.WeatherApp
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.gestures.scrollBy
@@ -11,7 +12,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +29,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -146,22 +147,21 @@ fun NowScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(top = 64.dp),   // space ABOVE the icon: change this number
+                .padding(top = 48.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(
-                imageVector = w.icon,
+            Image(
+                painter = painterResource(id = w.icon),
                 contentDescription = w.condition,
-                modifier = Modifier.size(96.dp),
-                tint = MaterialTheme.colorScheme.primary
+                modifier = Modifier.size(width = 160.dp, height = 120.dp)
             )
-            Spacer(Modifier.height(24.dp))   // NEW: space BELOW the icon (was 16)
+            Spacer(Modifier.height(24.dp))
             Text(w.condition, fontSize = 22.sp)
-            Spacer(Modifier.height(4.dp))    // NEW
+            Spacer(Modifier.height(4.dp))
             Text("${w.tempC}°C", fontSize = 48.sp)
-            Spacer(Modifier.height(4.dp))    // NEW
+            Spacer(Modifier.height(4.dp))
             Text("Feels like ${w.feelsLikeC}°C", fontSize = 16.sp)
-            Spacer(Modifier.height(4.dp))    // NEW
+            Spacer(Modifier.height(4.dp))
             Text("Wind ${w.windDir} ${w.windKph} kph", fontSize = 16.sp)
         }
 
@@ -205,16 +205,15 @@ fun DailyRow(day: DailyWeather) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(day.date, style = MaterialTheme.typography.titleSmall)
-        Spacer(Modifier.height(8.dp))        // NEW: gap between date and icon
-        Icon(
-            imageVector = day.icon,
+        Spacer(Modifier.height(8.dp))
+        Image(
+            painter = painterResource(id = day.icon),
             contentDescription = null,
-            modifier = Modifier.size(48.dp),
-            tint = MaterialTheme.colorScheme.primary
+            modifier = Modifier.size(width = 80.dp, height = 60.dp)
         )
-        Spacer(Modifier.height(8.dp))        // NEW: gap between icon and temperatures
+        Spacer(Modifier.height(8.dp))
         Text("${day.highC}°C High  ${day.lowC}°C Low")
-        Spacer(Modifier.height(4.dp))        // NEW: gap before the description
+        Spacer(Modifier.height(4.dp))
         Text(
             text = day.description,
             fontSize = 12.sp,
