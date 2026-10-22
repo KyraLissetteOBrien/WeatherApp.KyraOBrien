@@ -6,6 +6,7 @@ Icons Resource: https://github.com/Makin-Things/weather-icons
 
 Sneak peak so far: 
 
-<img width="282" height="626" alt="image" src="https://github.com/user-attachments/assets/48656af9-31b0-4f6d-963e-dee3cee8383d" />
+<img width="219" height="509" alt="image" src="https://github.com/user-attachments/assets/e494998b-0a7c-4d0f-8491-c09148478fdd" />
+
 
 
