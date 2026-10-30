@@ -68,22 +68,22 @@ fun WeatherApp() {
                             overflow = TextOverflow.Ellipsis
                         )
                     },
-                    actions = {
-                        TextButton(
-                            onClick = { if (scaleIndex > 0) scaleIndex-- },
-                            enabled = scaleIndex > 0,
-                            modifier = Modifier.semantics {
-                                contentDescription = "Decrease text size"
-                            }
-                        ) { Text("A−") }
-                        TextButton(
-                            onClick = { if (scaleIndex < textScales.lastIndex) scaleIndex++ },
-                            enabled = scaleIndex < textScales.lastIndex,
-                            modifier = Modifier.semantics {
-                                contentDescription = "Increase text size"
-                            }
-                        ) { Text("A+") }
-                    },
+//                    actions = {
+//                        TextButton(
+//                            onClick = { if (scaleIndex > 0) scaleIndex-- },
+//                            enabled = scaleIndex > 0,
+//                            modifier = Modifier.semantics {
+//                                contentDescription = "Decrease text size"
+//                            }
+//                        ) { Text("A−") }
+//                        TextButton(
+//                            onClick = { if (scaleIndex < textScales.lastIndex) scaleIndex++ },
+//                            enabled = scaleIndex < textScales.lastIndex,
+//                            modifier = Modifier.semantics {
+//                                contentDescription = "Increase text size"
+//                            }
+//                        ) { Text("A+") }
+//                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer
                     )
