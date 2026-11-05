@@ -11,7 +11,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -23,16 +22,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Density
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-
+import com.example.WeatherApp.ui.main.screens.DailyScreen
+import com.example.WeatherApp.ui.main.screens.NowScreen
 sealed class Screen(val route: String, val label: String, val icon: ImageVector) {
     object Now : Screen("now", "Now", Icons.Filled.AccessTime)
     object Daily : Screen("daily", "Daily", Icons.Filled.CalendarMonth)
@@ -41,6 +40,7 @@ sealed class Screen(val route: String, val label: String, val icon: ImageVector)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherApp() {
+    val viewModel: MainViewModel = viewModel()
     val navController = rememberNavController()
     val screens = listOf(Screen.Now, Screen.Daily)
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -68,22 +68,6 @@ fun WeatherApp() {
                             overflow = TextOverflow.Ellipsis
                         )
                     },
-//                    actions = {
-//                        TextButton(
-//                            onClick = { if (scaleIndex > 0) scaleIndex-- },
-//                            enabled = scaleIndex > 0,
-//                            modifier = Modifier.semantics {
-//                                contentDescription = "Decrease text size"
-//                            }
-//                        ) { Text("A−") }
-//                        TextButton(
-//                            onClick = { if (scaleIndex < textScales.lastIndex) scaleIndex++ },
-//                            enabled = scaleIndex < textScales.lastIndex,
-//                            modifier = Modifier.semantics {
-//                                contentDescription = "Increase text size"
-//                            }
-//                        ) { Text("A+") }
-//                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer
                     )
@@ -115,8 +99,8 @@ fun WeatherApp() {
                 startDestination = Screen.Now.route,
                 modifier = Modifier.padding(padding)
             ) {
-                composable(Screen.Now.route) { NowScreen() }
-                composable(Screen.Daily.route) { DailyScreen() }
+                composable(Screen.Now.route) { NowScreen(viewModel) }
+                composable(Screen.Daily.route) { DailyScreen(viewModel) }
             }
         }
     }
