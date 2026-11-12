@@ -18,6 +18,8 @@ data class ApiCurrent(
     @SerializedName("wind_kph") val windKph: Double,
     @SerializedName("wind_dir") val windDir: String,
     @SerializedName("is_day") val isDay: Int,
+    @SerializedName("humidity") val humidity: Int,
+    @SerializedName("precip_mm") val precipMm: Double,
     val condition: ApiCondition
 )
 
@@ -36,6 +38,8 @@ data class ApiDay(
     @SerializedName("avghumidity") val avgHumidity: Double,
     @SerializedName("daily_chance_of_rain") val chanceOfRain: Int,
     @SerializedName("daily_chance_of_snow") val chanceOfSnow: Int,
+    @SerializedName("totalprecip_mm") val totalPrecipMm: Double,
+    @SerializedName("totalsnow_cm") val totalSnowCm: Double,
     val condition: ApiCondition
 )
 

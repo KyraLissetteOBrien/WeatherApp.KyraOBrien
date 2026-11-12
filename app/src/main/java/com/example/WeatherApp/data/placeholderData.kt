@@ -8,7 +8,10 @@ data class CurrentWeather(
     val tempC: Int,
     val feelsLikeC: Int,
     val windDir: String,
-    val windKph: Int
+    val windKph: Int,
+    val humidity: Int = 0,
+    val precipChance: Int = 0,
+    val precipMm: Double = 0.0
 )
 
 data class DailyWeather(

@@ -72,6 +72,10 @@ fun NowScreen(viewModel: MainViewModel) {
             Text("Feels like ${w.feelsLikeC}°C", fontSize = 16.sp)
             Spacer(Modifier.height(4.dp))
             Text("Wind ${w.windDir} ${w.windKph} km/h", fontSize = 16.sp)
+            Spacer(Modifier.height(4.dp))
+            Text("Humidity ${w.humidity}%", fontSize = 16.sp)
+            Spacer(Modifier.height(4.dp))
+            Text("Precipitation ${w.precipChance}% chance, ${w.precipMm} mm", fontSize = 16.sp)
 
             Spacer(Modifier.height(24.dp))
             Text("Next 24 hours", style = MaterialTheme.typography.titleMedium)
