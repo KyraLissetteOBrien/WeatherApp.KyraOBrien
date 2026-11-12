@@ -1,4 +1,4 @@
-This is an up and coming weather application written in Kotlin for Android Studio. It is in it Phase 2 state, which focuses on showing live weather from WeatherAPI (https://www.weatherapi.com/) for the device's location and for saved Canadian cities.
+This is an up and coming weather application written in Kotlin for Android Studio. It is in its Phase 2 state, which focuses on showing live weather from WeatherAPI (https://www.weatherapi.com/) for the device's location and for saved Canadian cities.
 
 How to run: 
 1. Get a free API key at https://www.weatherapi.com/
