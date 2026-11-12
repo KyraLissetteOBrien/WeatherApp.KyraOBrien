@@ -2,6 +2,7 @@ package com.example.WeatherApp
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.WeatherApp.data.CurrentWeather
 import com.example.WeatherApp.data.DailyWeather
 import com.example.WeatherApp.data.HourlyWeather
+import com.example.WeatherApp.data.LocationSummary
 import com.example.WeatherApp.data.WeatherApi
 import com.example.WeatherApp.data.iconFor
 import com.google.android.gms.location.LocationServices
@@ -37,8 +39,23 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
     var locationName by mutableStateOf("Loading location...")
         private set
 
-    // Name of the device's location (used by the Locations screen later)
-    var myLocationName by mutableStateOf<String?>(null)
+    // Shown on the Locations screen under "My Location"
+    var myLocationSummary by mutableStateOf<LocationSummary?>(null)
+        private set
+
+    // Name, icon and temperature for each saved city, keyed by its saved name
+    var savedSummaries by mutableStateOf<Map<String, LocationSummary>>(emptyMap())
+        private set
+
+    // Saved cities are stored on the device and survive closing the app
+    private val prefs = app.getSharedPreferences("locations", Context.MODE_PRIVATE)
+
+    var savedLocations by mutableStateOf(
+        (prefs.getString("saved", "") ?: "").split("|").filter { it.isNotBlank() }
+    )
+        private set
+
+    var searchMessage by mutableStateOf<String?>(null)
         private set
 
     // Halifax is the fallback until (or unless) the device location is available
@@ -51,6 +68,12 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
             .addOnSuccessListener { loc ->
                 if (loc != null) {
                     loadWeather("${loc.latitude},${loc.longitude}", isDeviceLocation = true)
+                } else {
+                    client.lastLocation.addOnSuccessListener { last ->
+                        if (last != null) {
+                            loadWeather("${last.latitude},${last.longitude}", isDeviceLocation = true)
+                        }
+                    }
                 }
             }
     }
@@ -114,7 +137,13 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
                     }
 
                 locationName = "${r.location.name}, ${r.location.region}"
-                if (isDeviceLocation) myLocationName = locationName
+                if (isDeviceLocation) {
+                    myLocationSummary = LocationSummary(
+                        name = locationName,
+                        icon = iconFor(c.condition.code, c.isDay == 1),
+                        tempC = c.tempC.roundToInt()
+                    )
+                }
 
                 error = null
             } catch (e: retrofit2.HttpException) {
@@ -123,6 +152,45 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Weather request failed", e)
                 error = "Couldn't load weather. Check your connection."
+            }
+        }
+    }
+
+    fun addCity(text: String) {
+        if (text.isBlank()) return
+        viewModelScope.launch {
+            try {
+                val results = WeatherApi.service.search(BuildConfig.WEATHER_API_KEY, text.trim())
+                val city = results.firstOrNull { it.country == "Canada" }
+                if (city == null) {
+                    searchMessage = "No Canadian city found for \"$text\""
+                    return@launch
+                }
+                val label = "${city.name}, ${city.region}"
+                if (label !in savedLocations) {
+                    savedLocations = savedLocations + label
+                    prefs.edit().putString("saved", savedLocations.joinToString("|")).apply()
+                }
+                searchMessage = "Added $label"
+            } catch (e: Exception) {
+                searchMessage = "Search failed. Check your connection."
+            }
+        }
+    }
+
+    fun loadSavedSummaries() {
+        savedLocations.forEach { label ->
+            viewModelScope.launch {
+                try {
+                    val r = WeatherApi.service.forecast(BuildConfig.WEATHER_API_KEY, label, days = 1)
+                    savedSummaries = savedSummaries + (label to LocationSummary(
+                        name = label,
+                        icon = iconFor(r.current.condition.code, r.current.isDay == 1),
+                        tempC = r.current.tempC.roundToInt()
+                    ))
+                } catch (e: Exception) {
+                    Log.e("MainViewModel", "Summary failed for $label", e)
+                }
             }
         }
     }

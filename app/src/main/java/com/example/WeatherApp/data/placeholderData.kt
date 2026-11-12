@@ -27,3 +27,9 @@ data class HourlyWeather(
     @DrawableRes val icon: Int,
     val tempC: Int
 )
+
+data class LocationSummary(
+    val name: String,
+    @DrawableRes val icon: Int,
+    val tempC: Int
+)

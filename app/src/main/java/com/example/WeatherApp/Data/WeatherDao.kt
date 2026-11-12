@@ -49,3 +49,5 @@ data class ApiHour(
     @SerializedName("is_day") val isDay: Int,
     val condition: ApiCondition
 )
+
+data class ApiSearchResult(val name: String, val region: String, val country: String)

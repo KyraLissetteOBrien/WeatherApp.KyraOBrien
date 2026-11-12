@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -29,6 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.WeatherApp.ui.main.screens.DailyScreen
+import com.example.WeatherApp.ui.main.screens.LocationsScreen
 import com.example.WeatherApp.ui.main.screens.NowScreen
 
 sealed class Screen(val route: String, val label: String, val icon: ImageVector) {
@@ -70,6 +73,12 @@ fun WeatherApp() {
                         overflow = TextOverflow.Ellipsis
                     )
                 },
+
+                actions = {
+                    IconButton(onClick = { navController.navigate("locations") }) {
+                        Icon(Icons.Filled.LocationOn, contentDescription = "Locations")
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 )
@@ -103,6 +112,20 @@ fun WeatherApp() {
         ) {
             composable(Screen.Now.route) { NowScreen(viewModel) }
             composable(Screen.Daily.route) { DailyScreen(viewModel) }
+            composable("locations") {
+                LocationsScreen(
+                    viewModel = viewModel,
+                    onRequestPermission = {
+                        permissionLauncher.launch(
+                            arrayOf(
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            )
+                        )
+                    },
+                    onLocationChosen = { navController.popBackStack() }
+                )
+            }
         }
     }
 }

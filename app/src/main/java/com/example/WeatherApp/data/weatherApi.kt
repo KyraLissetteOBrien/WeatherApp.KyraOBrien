@@ -14,6 +14,12 @@ interface WeatherService {
         @Query("aqi") aqi: String = "no",
         @Query("alerts") alerts: String = "no"
     ): ForecastResponse
+
+    @GET("v1/search.json")
+    suspend fun search(
+        @Query("key") key: String,
+        @Query("q") query: String
+    ): List<ApiSearchResult>
 }
 
 object WeatherApi {
