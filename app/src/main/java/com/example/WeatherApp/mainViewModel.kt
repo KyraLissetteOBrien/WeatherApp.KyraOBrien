@@ -59,7 +59,7 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
         private set
 
     // Halifax is the fallback until (or unless) the device location is available
-    init { loadWeather("44.65,-63.57") }
+    init { loadWeather("Halifax, Nova Scotia") }
 
     @SuppressLint("MissingPermission")
     fun loadFromDeviceLocation() {
@@ -69,6 +69,7 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
                 if (loc != null) {
                     loadWeather("${loc.latitude},${loc.longitude}", isDeviceLocation = true)
                 } else {
+                    // No fresh fix, so fall back to the last known location
                     client.lastLocation.addOnSuccessListener { last ->
                         if (last != null) {
                             loadWeather("${last.latitude},${last.longitude}", isDeviceLocation = true)
@@ -76,12 +77,18 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
                     }
                 }
             }
+            // Runs if the location request itself fails (for example, Play services trouble)
+            .addOnFailureListener { e -> Log.e("MainViewModel", "getCurrentLocation failed", e) }
     }
 
+    // Counts weather requests so a slow, older response can't overwrite a newer one
+    private var latestRequest = 0
     fun loadWeather(query: String, isDeviceLocation: Boolean = false) {
+        val requestId = ++latestRequest
         viewModelScope.launch {
             try {
                 val r = WeatherApi.service.forecast(BuildConfig.WEATHER_API_KEY, query)
+                if (requestId != latestRequest) return@launch
                 val c = r.current
                 val today = r.forecast.forecastday.first().day
 
