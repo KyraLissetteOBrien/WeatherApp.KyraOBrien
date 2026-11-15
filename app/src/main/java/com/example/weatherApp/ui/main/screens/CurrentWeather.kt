@@ -36,7 +36,12 @@ fun NowScreen(viewModel: MainViewModel) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             val errorMessage = viewModel.error
             if (errorMessage != null) {
-                Text("Error: $errorMessage", color = MaterialTheme.colorScheme.error)
+                Text(
+                    "Error: $errorMessage",
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
             } else {
                 CircularProgressIndicator()
             }
@@ -54,7 +59,12 @@ fun NowScreen(viewModel: MainViewModel) {
         ) {
             val errorMessage = viewModel.error
             errorMessage?.let {
-                Text(it, color = MaterialTheme.colorScheme.error)
+                Text(
+                    it,
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
                 Spacer(Modifier.height(8.dp))
             }
 

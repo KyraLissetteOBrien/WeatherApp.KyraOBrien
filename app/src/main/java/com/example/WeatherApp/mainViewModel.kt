@@ -159,7 +159,8 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
                 error = "Couldn't load weather (error ${e.code()})"
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Weather request failed", e)
-                error = "Couldn't load weather. Check your connection."
+                error = "Couldn't load weather. Please check your connection and try again."
+                if (current == null) locationName = "Location unavailable"   // the switch from trying to load to calling it "nope"
             }
         }
     }
@@ -182,7 +183,7 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
                 searchMessage = "Added $label"
             } catch (e: Exception) {
                 Log.e("MainViewModel", "City search failed", e)   // record what went wrong in logcat
-                searchMessage = "Search failed. Check your connection."
+                searchMessage = "Search failed. Please check your connection and try again."
             }
         }
     }

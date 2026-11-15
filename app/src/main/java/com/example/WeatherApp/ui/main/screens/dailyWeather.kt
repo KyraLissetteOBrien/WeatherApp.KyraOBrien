@@ -34,7 +34,12 @@ fun DailyScreen(viewModel: MainViewModel) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             val errorMessage = viewModel.error
             if (errorMessage != null) {
-                Text("Error: $errorMessage", color = MaterialTheme.colorScheme.error)
+                Text(
+                    "Error: $errorMessage",
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
             } else {
                 CircularProgressIndicator()
             }
