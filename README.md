@@ -6,8 +6,6 @@ How to run:
    `WEATHER_API_KEY=your_key_here`
 3. Open in Android Studio and run
 
-Note: the emulator's default location is California.
-
 Sneak peak so far (design is in its infancy): 
 
 <img width="257" height="581" alt="image" src="https://github.com/user-attachments/assets/44b29dd5-2329-483f-a2ac-a1d15d4f4535" />
