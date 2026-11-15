@@ -1,4 +1,4 @@
-package com.example.WeatherApp.ui.main.screens
+package com.example.weatherApp.ui.main.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,11 +21,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.WeatherApp.MainViewModel
-import com.example.WeatherApp.components.ColumnScrollbar
-import com.example.WeatherApp.data.HourlyWeather
+import com.example.weatherApp.MainViewModel
+import com.example.weatherApp.data.HourlyWeather
 
 @Composable
 fun NowScreen(viewModel: MainViewModel) {
@@ -75,8 +74,12 @@ fun NowScreen(viewModel: MainViewModel) {
             Spacer(Modifier.height(4.dp))
             Text("Humidity ${w.humidity}%", fontSize = 16.sp)
             Spacer(Modifier.height(4.dp))
-            Text("Precipitation ${w.precipChance}% chance, ${w.precipMm} mm", fontSize = 16.sp)
-
+            Text(
+                "Precipitation ${w.precipChance}% chance, ${w.precipMm} mm",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,              // centring each line when the text wraps
+                modifier = Modifier.padding(horizontal = 24.dp)   // keeping text off the screen edges for visibility
+            )
             Spacer(Modifier.height(24.dp))
             Text("Next 24 hours", style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(8.dp))
@@ -88,12 +91,6 @@ fun NowScreen(viewModel: MainViewModel) {
             }
             Spacer(Modifier.height(16.dp))
         }
-
-        ColumnScrollbar(
-            state = scrollState,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight()
-        )
     }
 }
 

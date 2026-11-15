@@ -1,10 +1,9 @@
-package com.example.WeatherApp.ui.main.screens
+package com.example.weatherApp.ui.main.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,9 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.WeatherApp.MainViewModel
-import com.example.WeatherApp.components.LazyListScrollbar
-import com.example.WeatherApp.data.DailyWeather
+import com.example.weatherApp.MainViewModel
+import com.example.weatherApp.data.DailyWeather
 
 @Composable
 fun DailyScreen(viewModel: MainViewModel) {
@@ -63,12 +61,6 @@ fun DailyScreen(viewModel: MainViewModel) {
                 HorizontalDivider()
             }
         }
-
-        LazyListScrollbar(
-            state = listState,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight()
-        )
     }
 }
 

@@ -1,4 +1,4 @@
-package com.example.WeatherApp.ui.main.screens
+package com.example.weatherApp.ui.main.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -38,8 +38,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.WeatherApp.MainViewModel
-import com.example.WeatherApp.data.LocationSummary
+import com.example.weatherApp.MainViewModel
+import com.example.weatherApp.data.LocationSummary
 
 @Composable
 fun LocationsScreen(

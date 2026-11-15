@@ -1,10 +1,10 @@
-package com.example.WeatherApp
+package com.example.weatherApp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.WeatherApp.ui.WeatherAppKyraOBrienTheme
+import com.example.weatherApp.ui.WeatherAppKyraOBrienTheme
 
 class mainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

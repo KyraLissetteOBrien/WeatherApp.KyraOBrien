@@ -1,4 +1,4 @@
-package com.example.WeatherApp.data
+package com.example.weatherApp.data
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -9,7 +9,7 @@ interface WeatherService {
     @GET("v1/forecast.json")
     suspend fun forecast(
         @Query("key") key: String,
-        @Query("q") location: String,   // "44.65,-63.57" or a city name
+        @Query("q") location: String,   // Display as "44.65,-63.57" or a city name
         @Query("days") days: Int = 3,
         @Query("aqi") aqi: String = "no",
         @Query("alerts") alerts: String = "no"

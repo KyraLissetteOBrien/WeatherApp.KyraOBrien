@@ -1,6 +1,6 @@
-package com.example.WeatherApp.data
+package com.example.weatherApp.data
 
-import com.example.WeatherApp.R
+import com.example.weatherApp.R
 
 fun iconFor(code: Int, isDay: Boolean): Int = when (code) {
     1000 -> if (isDay) R.drawable.clear_day else R.drawable.clear_night

@@ -1,4 +1,4 @@
-package com.example.WeatherApp
+package com.example.weatherApp
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -9,12 +9,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.WeatherApp.data.CurrentWeather
-import com.example.WeatherApp.data.DailyWeather
-import com.example.WeatherApp.data.HourlyWeather
-import com.example.WeatherApp.data.LocationSummary
-import com.example.WeatherApp.data.WeatherApi
-import com.example.WeatherApp.data.iconFor
+import com.example.weatherApp.data.CurrentWeather
+import com.example.weatherApp.data.DailyWeather
+import com.example.weatherApp.data.HourlyWeather
+import com.example.weatherApp.data.LocationSummary
+import com.example.weatherApp.data.WeatherApi
+import com.example.weatherApp.data.iconFor
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import kotlinx.coroutines.launch
@@ -23,6 +23,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
+import androidx.core.content.edit
 
 class MainViewModel(private val app: Application) : AndroidViewModel(app) {
 
@@ -176,10 +177,11 @@ class MainViewModel(private val app: Application) : AndroidViewModel(app) {
                 val label = "${city.name}, ${city.region}"
                 if (label !in savedLocations) {
                     savedLocations = savedLocations + label
-                    prefs.edit().putString("saved", savedLocations.joinToString("|")).apply()
+                    prefs.edit { putString("saved", savedLocations.joinToString("|")) }
                 }
                 searchMessage = "Added $label"
             } catch (e: Exception) {
+                Log.e("MainViewModel", "City search failed", e)   // record what went wrong in logcat
                 searchMessage = "Search failed. Check your connection."
             }
         }

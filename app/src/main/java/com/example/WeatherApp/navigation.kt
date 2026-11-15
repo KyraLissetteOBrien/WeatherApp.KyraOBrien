@@ -1,4 +1,4 @@
-package com.example.WeatherApp
+package com.example.weatherApp
 
 import android.Manifest
 import android.content.Intent
@@ -39,10 +39,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.WeatherApp.ui.main.screens.DailyScreen
-import com.example.WeatherApp.ui.main.screens.LocationsScreen
-import com.example.WeatherApp.ui.main.screens.NowScreen
-import android.util.Log
+import com.example.weatherApp.ui.main.screens.DailyScreen
+import com.example.weatherApp.ui.main.screens.LocationsScreen
+import com.example.weatherApp.ui.main.screens.NowScreen
 
 // The two screens in the bottom navigation bar: each has a route (its "address"),
 // a label shown under the icon, and the icon itself
@@ -148,7 +147,6 @@ fun WeatherApp() {
                             ContextCompat.checkSelfPermission(context, it) ==
                                     PackageManager.PERMISSION_GRANTED
                         }
-                        Log.d("WeatherApp", "Row tapped: hasPermission=$hasPermission, denied=$locationDenied")  // NEW, temporary
                         when {
                             // Already allowed: just fetch the location
                             hasPermission -> viewModel.loadFromDeviceLocation()
